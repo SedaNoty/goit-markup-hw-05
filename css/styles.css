@@ -5,7 +5,9 @@
     --main-opacity: #FFFFFF60;
     --main-opacity-two: #FFFFFF10;
     --text-items: #2196F3;
+    --overlay-cards: #2196F390;
     --element-hero: #2F303A;
+    --strip-applications: #2F303A80;
     --text-page: #000000;
     --text-main: #212121;
     --text-contacts: #757575;
@@ -13,8 +15,10 @@
     --bcg-btn-hero: #188CE8;
     --border-header: #ECECEC;
     --border-portfolio: #EEEEEE;
+    --modal-backround: #00000050;
     --icon-social: #AFB1B8;
     --card-distance: 30px;
+    --time-bezier:250ms cubic-bezier(0.4, 0, 0.2, 1);
     --card-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12),
         0px 1px 1px rgba(0, 0, 0, 0.14),
         0px 2px 1px rgba(0, 0, 0, 0.2);
@@ -173,13 +177,15 @@ header {
     margin-right: 8px;
 }
 
-.cards-portfolio {
-    display: block;
-}
 .cards-portfolio:hover,
 .cards-portfolio:focus {
     box-shadow: var(--portfolio-shadow);
 }
+.cards-portfolio {
+    display: block;
+    transition: box-shadow var(--time-bezier);
+}
+
 
 /* Сітка списку в портфоліо */ 
 
@@ -195,13 +201,38 @@ header {
     margin-top: var(--card-distance);
 }
 
-
-
-
  
 .picture-portfolio {
     text-align: left;
     padding-bottom: 0px;
+}
+
+
+.cards-portfolio-overlay {
+    position: relative;
+    overflow: hidden;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--overlay-cards);
+    color: var(--main-page);
+    font-size: 18px;
+    line-height: 1.56;
+    padding: 61px 24px;
+    overflow: auto;
+    transform: translateY(100%);
+    transition: transform var(--time-bezier);
+}
+
+
+.cards-portfolio:hover .overlay,
+.cards-portfolio:focus .overlay {
+    transform: translateY(0);
 }
 
 
@@ -250,13 +281,6 @@ body {
 }
 
 /* Кнопки навыгації*/
-.item-navigation {
-    font-size: 14px;
-    line-height: 1.14;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: var(--text-main);
-}
 
 .item-contacts {
     font-size: 14px;
@@ -264,6 +288,16 @@ body {
     font-weight: 500;
     letter-spacing: 0.02em;
     color: var(--text-contacts);
+    transition: color var(--time-bezier);
+}
+
+.item-navigation {
+    font-size: 14px;
+    line-height: 1.14;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--text-main);
+    transition: color var(--time-bezier);
 }
 
 .item-navigation:hover,
@@ -274,9 +308,23 @@ body {
     fill: var(--text-items);
 }
 
+.strip-line {
+    position: relative;
+}
+.current::after {
+    content: "";
+    position: absolute;
+    bottom:-30px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: var(--text-items);
+    border-radius: 2px;
+}
 .item-navigation.current {
     color: var(--text-items);
 }
+
 
 
 /* Секція - hero */
@@ -300,6 +348,7 @@ body {
     letter-spacing: 0.06em;
     border-radius: 4px;
     text-align: center;
+    transition: color var(--time-bezier), background-color var(--time-bezier) ;
 }
 
 .button-central:hover,
@@ -349,6 +398,32 @@ body {
 .work {
     padding-top: 0;
 }
+.foto-work {
+    position: relative;
+}
+
+.text-applcations {
+    position: absolute;
+    font-size: 14px;
+    line-height: 1.43;
+    text-transform: uppercase;
+    font-weight: 700px;
+    color: var(--main-page);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+}
+
+.applications {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: var(--strip-applications);
+}
+
 
 /* Секція - team */
 
@@ -397,6 +472,7 @@ body {
     height: 44px;
     border-radius: 50%;
     background-color: var(--main-page);
+    transition: background-color var(--time-bezier), fill var(--time-bezier) ;
 }
 .social-list-link:hover,
 .social-list-link:focus {
@@ -423,11 +499,13 @@ body {
     border-radius: 4px;
     border:1px solid var(--icon-social);
     background-color: var(--main-page);
+    transition: border var(--time-bezier);
 }
 .icon-client-logo {
     width: 106px;
     height: 60px;
-    fill: var(--icon-social)
+    fill: var(--icon-social);
+    transition: fill var(--time-bezier);
 }
 .icon-clients-link:hover,
 .icon-clients-link:focus {
@@ -518,6 +596,7 @@ body {
     height: 44px;
     border-radius: 50%;
     background-color: var(--main-opacity-two);
+    transition: background-color var(--time-bezier);
 }
 .social-link-footer:hover,
 .social-link-footer:focus {
@@ -560,6 +639,7 @@ body {
     border: var(--bcg-button);
     border-radius: 4px;
     padding: 6px 22px;
+    transition: color var(--time-bezier), background-color var(--time-bezier), box-shadow var(--time-bezier);
 }
 
 .first {
@@ -580,3 +660,52 @@ body {
     color: var(--text-contacts);
     margin-top: 4px;
 }
+
+/* Modal Window */
+
+.backdrop {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-backround);
+    transition: opacity var(--time-bezier), visibility var(--time-bezier);
+}
+
+
+
+.backdrop.is-hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal {
+    width: 528px;
+    height: 581px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--main-page);
+}
+.modal-close-icon {
+    fill: var(--text-page);
+}
+.modal-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--main-page);
+    border: 1px solid var(--main-opacity-two);
+    padding: 0;
+}
+
