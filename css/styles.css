@@ -715,6 +715,7 @@ body {
     height: 30px;
     background-color: var(--main-page);
     border: 1px solid var(--modal-close);
+    border-radius: 50%;
     padding: 0;
 }
 
